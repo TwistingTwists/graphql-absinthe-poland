@@ -8,6 +8,7 @@ defmodule Sntx.User.Account do
   alias __MODULE__, as: Account
   alias Sntx.{Repo, Uploaders}
   alias Sntx.Services.Uploads
+  alias Sntx.Blog.Post
 
   schema "user_accounts" do
     field :email, :string
@@ -30,6 +31,7 @@ defmodule Sntx.User.Account do
     field :password, :string, virtual: true
     field :remove_avatar, :boolean, virtual: true
 
+    has_many :blog_posts, Post, on_replace: :nothing
     timestamps()
   end
 
