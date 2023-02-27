@@ -100,3 +100,7 @@ server {
   }
 }
 ```
+
+## Test
+
+1. run `./test.sh` to run tests

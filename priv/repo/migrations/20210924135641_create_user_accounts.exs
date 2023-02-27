@@ -5,7 +5,8 @@ defmodule Sntx.Repo.Migrations.CreateUserAccounts do
     UserAccountRole.create_type()
 
     create table(:user_accounts, primary_key: false) do
-      add :id, :binary_id, primary_key: true, default: fragment("gen_random_uuid()")
+      # add :id, :binary_id, primary_key: true, default: fragment("gen_random_uuid()")
+      add :id, :binary_id, primary_key: true
 
       add :email, :string
       add :password_hash, :string

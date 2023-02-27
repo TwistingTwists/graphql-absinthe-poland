@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.2
--- Dumped by pg_dump version 14.2
+-- Dumped from database version 14.6 (Ubuntu 14.6-0ubuntu0.22.04.1)
+-- Dumped by pg_dump version 14.6 (Ubuntu 14.6-0ubuntu0.22.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -43,6 +43,20 @@ CREATE TYPE public.user_role AS ENUM (
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
+
+--
+-- Name: blog_posts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.blog_posts (
+    id uuid NOT NULL,
+    title character varying(255),
+    body character varying(255),
+    author_id uuid,
+    inserted_at timestamp(0) without time zone NOT NULL,
+    updated_at timestamp(0) without time zone NOT NULL
+);
+
 
 --
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
@@ -96,6 +110,14 @@ CREATE TABLE public.user_tokens (
 
 
 --
+-- Name: blog_posts blog_posts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.blog_posts
+    ADD CONSTRAINT blog_posts_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -120,10 +142,25 @@ ALTER TABLE ONLY public.user_tokens
 
 
 --
+-- Name: blog_posts_author_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX blog_posts_author_id_index ON public.blog_posts USING btree (author_id);
+
+
+--
 -- Name: user_accounts__lower_email_index; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX user_accounts__lower_email_index ON public.user_accounts USING btree (lower((email)::text));
+
+
+--
+-- Name: blog_posts blog_posts_author_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.blog_posts
+    ADD CONSTRAINT blog_posts_author_id_fkey FOREIGN KEY (author_id) REFERENCES public.user_accounts(id);
 
 
 --
@@ -133,3 +170,4 @@ CREATE UNIQUE INDEX user_accounts__lower_email_index ON public.user_accounts USI
 INSERT INTO public."schema_migrations" (version) VALUES (20210924135612);
 INSERT INTO public."schema_migrations" (version) VALUES (20210924135641);
 INSERT INTO public."schema_migrations" (version) VALUES (20210927160324);
+INSERT INTO public."schema_migrations" (version) VALUES (20230225054332);
